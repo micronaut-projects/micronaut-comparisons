@@ -1,0 +1,1 @@
+This project runs a [Gatling](https://gatling.io) load test with the help of [Gatling Plugin for Gradle](https://github.com/lkishalmi/gradle-gatling-plugin])for JHipster sample app.

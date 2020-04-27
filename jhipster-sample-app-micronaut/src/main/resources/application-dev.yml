@@ -1,0 +1,117 @@
+# ===================================================================
+# Micronaut configuration for the "prod" environment.
+#
+# This configuration overrides the application.yml file.
+#
+# More information on profiles: https://www.jhipster.tech/profiles/
+# More information on configuration properties: https://www.jhipster.tech/common-application-properties/
+# ===================================================================
+
+# ===================================================================
+# Standard Micronaut configuration properties.
+# Full reference is available at:
+# https://docs.micronaut.io/latest/guide/configurationreference.html
+# ===================================================================
+
+datasources:
+  default:
+    url: ${JDBC_URL:`jdbc:h2:mem:jhipstersampleapplication;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE`}
+    username: ${JDBC_USER:JhipsterSampleApplication}
+    password: ${JDBC_PASSWORD:""}
+    driverClassName: ${JDBC_DRIVER:org.h2.Driver}
+    poolName: Hikari
+    autoCommit: false
+
+liquibase:
+  datasources:
+    default:
+      async: true
+      change-log: classpath:config/liquibase/master.xml
+      contexts: dev,faker
+
+jpa:
+  default:
+    packages-to-scan: io.github.jhipster.sample.domain
+    properties:
+      hibernate:
+        javax:
+          cache:
+            missing_cache_strategy: create
+        hbm2ddl:
+          auto: none
+        show_sql: true
+        id:
+          new_generator_mappings: true
+        connection:
+          provider_disables_autocommit: true
+        cache:
+          use_second_level_cache: true
+          use_query_cache: false
+        generate_statistics: false
+
+logging:
+  level:
+    ROOT: DEBUG
+    io.github.jhipster: DEBUG
+    io.github.jhipster.sample: DEBUG
+
+micronaut:
+  server:
+    port: 8080
+    cors:
+      # CORS is only enabled by default with the "dev" profile, so BrowserSync can access the API
+      enabled: true
+      configurations:
+        default:
+          exposed-headers:
+            - Authorization
+            - Link
+            - X-Total-Count
+  security:
+    token:
+      jwt:
+        generator:
+          access-token-expiration: 86400
+        signatures:
+          secret:
+            generator:
+              secret: 'bXktc2VjcmV0LWtleS13aGljaC1zaG91bGQtYmUtY2hhbmdlZC1pbi1wcm9kdWN0aW9uLWFuZC1iZS1iYXNlNjQtZW5jb2RlZAo='
+              base64: true
+              jws-algorithm: HS512
+
+# ===================================================================
+# JHipster specific properties
+#
+# Full reference is available at: https://www.jhipster.tech/common-application-properties/
+# ===================================================================
+
+jhipster:
+  cache: # Cache configuration
+    ehcache: # Ehcache configuration
+      time-to-live-seconds: 3600 # By default objects stay 1 hour in the cache
+      max-entries: 100 # Number of objects in each cache entry
+
+  mail: # specific JHipster mail property, for standard properties see MailProperties
+    from: JhipsterSampleApplication@localhost
+    base-url: http://127.0.0.1:8080
+  metrics:
+    logs: # Reports metrics in the logs
+      enabled: false
+      report-frequency: 60 # in seconds
+  logging:
+    use-json-format: false # By default, logs are not in Json format
+    logstash: # Forward logs to logstash over a socket, used by LoggingConfiguration
+      enabled: false
+      host: localhost
+      port: 5000
+      queue-size: 512
+# ===================================================================
+# Application specific properties
+# Add your own application properties here, see the ApplicationProperties class
+# to have type-safe configuration, like in the JHipsterProperties above
+#
+# More documentation is available at:
+# https://www.jhipster.tech/common-application-properties/
+# ===================================================================
+
+# application:

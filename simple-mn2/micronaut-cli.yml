@@ -1,0 +1,5 @@
+profile: service
+defaultPackage: simple.mn2
+---
+testFramework: junit
+sourceLanguage: java

@@ -1,0 +1,20 @@
+plugins {
+    id 'scala'
+    id "com.github.lkishalmi.gatling" version "3.2.9"
+}
+
+repositories {
+    mavenCentral()
+}
+
+gatlingRun {
+    if (System.getProperty('loadtests.users') != null) {
+        System.setProperty "loadtests.users", System.getProperty('loadtests.users')
+    }
+    if (System.getProperty('loadtests.rampduration') != null) {
+        System.setProperty "loadtests.rampduration", System.getProperty('loadtests.rampduration')
+    }
+    if (System.getProperty('loadtests.duration') != null) {
+        System.setProperty "loadtests.duration", System.getProperty('loadtests.duration')
+    }
+}
