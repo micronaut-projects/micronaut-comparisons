@@ -85,14 +85,20 @@ To measure the memory consumption of the application after a load test is run:
   + `ps x -o rss,vsz,command | grep java` (Mac/Linux)
   + `tasklist` (Windows)
 
+## Test Machine Specifications
+  + HP ZBook Laptop
+  + Intel(R) Core(TM) i7-6700HQ CPU @ 2.60GHz
+  + 16GB of RAM
+  + OpenJDK Runtime Environment (build 1.8.0_252-b09)
+  + Fedora Linux 31
+
 ## Results
 
 |                                            | Spring Boot 2.2 | Micronaut 1.3.4 | Micronaut 2.0.0 M2 |
 |:-------------------------------------------|----------------:|----------------:|-------------------:|
-| Simple: Start Up (Best of 5)               | 2099 ms         | 1073 ms         | 863 ms             |
-| Simple: Time to First Response (Best of 5) | 2895 ms         | 1718 ms         | 1413 ms            |
-| JHipster: Number of Requests (60s)         | 63,367          | 127,301         | 137,464            |
-| JHipster: Mean Response Time               | 758 ms          | 391 ms          | 360 ms             |
-| JHipster: Mean Requests Per Second         | 1188.491        | 2309.655        | 2499.345           |
-| Memory Consumption After Load Test         | 490.892 MB      | 441.856 MB      | 439.208 MB         |
-
+| Simple: Start Up (Best of 5)               | 1997 ms         | 955 ms          | 813 ms             |
+| Simple: Time to First Response (Best of 5) | 2741 ms         | 1496 ms         | 1295 ms            |
+| JHipster: Number of Requests (60s)         | 111,137         | 132,391         | 153,557            |
+| JHipster: Mean Response Time               | 444 ms          | 375 ms          | 323 ms             |
+| JHipster: Mean Requests Per Second         | 2020.673        | 2407.109        | 2791.945           |
+| Memory Consumption After Load Test         | 473.328 MB      | 435.092 MB      | 424.560 MB         |
