@@ -1,6 +1,9 @@
 package com.mycompany.myapp.repository;
 
 import com.mycompany.myapp.domain.User;
+
+import org.hibernate.jpa.QueryHints;
+
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import io.quarkus.panache.common.Page;
 
@@ -40,9 +43,14 @@ public class UserRepository implements PanacheRepository<User> {
     }
 
     public Optional<User> findOneWithAuthoritiesByLogin(String login) {
-        return find("FROM User u LEFT JOIN FETCH u.authorities WHERE u.login = ?1", login)
-//            .withHint(QueryHints.HINT_CACHEABLE, "true")
-            .firstResultOptional();
+        List<User> users = find("SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.authorities WHERE u.login = ?1", login)
+           // .withHint(QueryHints.HINT_CACHEABLE, "true")
+           .list();
+        if (users.size() > 0) {
+            return Optional.of(users.get(0));
+        } else {
+            return Optional.empty();
+        }
     }
 
     public Optional<User> findOneWithAuthoritiesByEmailIgnoreCase(String email) {

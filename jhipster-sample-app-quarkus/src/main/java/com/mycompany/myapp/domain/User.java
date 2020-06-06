@@ -2,12 +2,9 @@ package com.mycompany.myapp.domain;
 
 import com.mycompany.myapp.config.Constants;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
-import io.quarkus.security.jpa.Password;
-import io.quarkus.security.jpa.Roles;
-import io.quarkus.security.jpa.UserDefinition;
-import io.quarkus.security.jpa.Username;
-
 import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
@@ -25,8 +22,8 @@ import java.util.Set;
 */
 @Entity
 @Table(name = "jhi_user")
-@UserDefinition
 @Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 //The entity inherits `PanacheEntity` to take advantage of the ID and the public fields
 public class User extends PanacheEntity implements Serializable {
 
@@ -36,14 +33,12 @@ public class User extends PanacheEntity implements Serializable {
    @Pattern(regexp = Constants.LOGIN_REGEX)
    @Size(min = 1, max = 50)
    @Column(length = 50, unique = true, nullable = false)
-   @Username
    public String login;
 
    @JsonbTransient
    @NotNull
    @Size(min = 60, max = 60)
    @Column(name = "password_hash", length = 60, nullable = false)
-   @Password
    public String password;
 
    @Size(max = 50)
@@ -91,7 +86,7 @@ public class User extends PanacheEntity implements Serializable {
        joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
        inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "name")})
    @BatchSize(size = 20)
-   @Roles
+   @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
    public Set<Authority> authorities = new HashSet<>();
 
    //To move to an audit mechanism

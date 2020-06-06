@@ -1,8 +1,5 @@
 package com.mycompany.myapp.domain;
 
-
-import io.quarkus.security.jpa.RolesValue;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -10,6 +7,10 @@ import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -19,6 +20,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "jhi_authority")
 @Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Authority implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -27,7 +29,6 @@ public class Authority implements Serializable {
     @Size(max = 50)
     @Id
     @Column(length = 50)
-    @RolesValue
     public String name;
 
     public Authority() {
