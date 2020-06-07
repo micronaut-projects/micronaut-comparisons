@@ -1,6 +1,6 @@
-# Spring Boot vs Micronaut Comparisons
+# Spring Boot vs Quarkus vs Micronaut Comparisons
 
-This repository houses sample applications intended to compare the performance of [Spring Boot](https://spring.io/projects/spring-boot) and [Micronaut](https://micronaut.io) applications.
+This repository houses sample applications intended to compare the performance of [Spring Boot](https://spring.io/projects/spring-boot), [Quarkus](https://quarkus.io/) and [Micronaut](https://micronaut.io) applications.
 
 There are two types of sample projects in this repository.
   1. Simple "Hello World" projects.
@@ -38,11 +38,12 @@ All of the projects depend on Java 8 or higher.
 
 ## Startup Time
 
-Micronaut and Spring Boot each report how long it took them to start.  To measure startup time, we will rely on the measurements provided by each framework.
+Micronaut, Quarkus and Spring Boot each report how long it took them to start.  To measure startup time, we will rely on the measurements provided by each framework.
 
 + `java -Xmx128m -jar simple-sb/build/libs/sample-0.0.1-SNAPSHOT.jar`
 + `java -Xmx128m -jar simple-mn/build/libs/sample-0.1-all.jar`
 + `java -Xmx128m -jar simple-mn2/build/libs/sample-0.1-all.jar`
++ `java -Xmx128m -jar simple-qu/build/libs/simple-qu-1.0.0-SNAPSHOT-runner.jar`
 
 ## Time to First Response
 
@@ -52,6 +53,7 @@ There is a small Node script called `time.js` for this purpose.  The script will
 + `node time.js simple-sb/build/libs/sample-0.0.1-SNAPSHOT.jar`
 + `node time.js simple-mn/build/libs/sample-0.1-all.jar`
 + `node time.js simple-mn2/build/libs/sample-0.1-all.jar`
++ `node time.js simple-qu/build/libs/simple-qu-1.0.0-SNAPSHOT-runner.jar`
 
 ## Performance Under Load
 
@@ -59,7 +61,7 @@ To measure performance under load, we wanted to use a comparable example that is
 
 For this reason, we decided to use sample applications from the JHipster project.  These applications include authentication and authorization, input validation, database interactions, and a number of other configurations that place them closer to the realm of a real application.
 
-This repository contains both the [JHipster Micronaut Sample Application](https://github.com/jhipster/jhipster-sample-app-micronaut) and the [JHipster Spring Boot Sample Application](https://github.com/jhipster/jhipster-sample-app).  Additionally, we have included a version of the Micronaut JHipster sample application that has been upgraded to Micronaut 2.0.0 M2.
+This repository contains both the [JHipster Micronaut Sample Application](https://github.com/jhipster/jhipster-sample-app-micronaut) and the [JHipster Spring Boot Sample Application](https://github.com/jhipster/jhipster-sample-app).  Additionally, we have included a version of the Micronaut JHipster sample application that has been upgraded to Micronaut 2.0.0 M2 and a Quarkus based version.
 
 In order to better illustrate the performance of the frameworks, we did modify the JHipster projects to replace the bcrypt encoding and verification of credentials to an essentially no-op implementation.  By design, bcrypt is computationally expensive and leaving it in the sample applications result in load tests that are illustrating the performance of bcrypt with different application wrappers.  Those results are less valuable for this purpose.
 
@@ -69,6 +71,7 @@ To run the load tests:
     + `java -Xmx128m -jar jhipster-sample-app/target/jhipster-sample-application-0.0.1-SNAPSHOT.jar` (Spring Boot)
     + `java -Xmx128m -jar jhipster-sample-app-micronaut/target/jhipster-sample-application-0.0.1-SNAPSHOT.jar` (Micronaut 1.3.4)
     + `java -Xmx128m -jar jhipster-sample-app-micronaut-2/target/jhipster-sample-application-0.0.1-SNAPSHOT.jar` (Micronaut 2.0.0 M2)
+    + `java -Xmx128m -jar jhipster-sample-app-quarkus/target/jhipster-1.0.0-SNAPSHOT-runner.jar` (Quarkus)
 2. In a new terminal, run the Gatling test suite
     + `cd loadtests`
     + `./gradlew gatlingRun --rerun-tasks` (Mac/Linux)
@@ -94,6 +97,10 @@ To measure the memory consumption of the application after a load test is run:
 
 ## Results
 
+### ZBook
+
+Used device: i7-6700HQ  / 16 GB / Fedora Linux 30
+
 |                                            | Spring Boot 2.2 | Micronaut 1.3.4 | Micronaut 2.0.0 M2 |
 |:-------------------------------------------|----------------:|----------------:|-------------------:|
 | Simple: Start Up (Best of 5)               | 1997 ms         | 955 ms          | 813 ms             |
@@ -102,3 +109,18 @@ To measure the memory consumption of the application after a load test is run:
 | JHipster: Mean Response Time               | 444 ms          | 375 ms          | 323 ms             |
 | JHipster: Mean Requests Per Second         | 2020.673        | 2407.109        | 2791.945           |
 | Memory Consumption After Load Test         | 473.328 MB      | 435.092 MB      | 424.560 MB         |
+
+### ZBook Studio G3
+
+Used Device: ZBook Studio G3 / i7-6700HQ / 32GB / Fedora Linux 32
+
+|                                            | Spring Boot 2.2 | Micronaut 1.3.4 | Micronaut 2.0.0 M2 | Quarkus 1.4 |
+|:-------------------------------------------|----------------:|----------------:|-------------------:|------------:|
+| Simple: Start Up (Best of 5)               | 2825 ms         | 1041 ms         | 817 ms             | 812ms       |
+| Simple: Time to First Response (Best of 5) | 3027 ms         | 1797 ms         | 1499 ms            | 1151ms      |
+| JHipster: Number of Requests (60s)         | 137,365         | 170,539         | 184,848            | 121,606     |
+| JHipster: Mean Response Time               | 363 ms          | 292 ms          | 268 ms             | 406 ms      |
+| JHipster: Mean Requests Per Second         | 2497.545        | 3100.709        | 3360.873           | 2211.018    |
+| Memory Consumption After Load Test         | 421.683 MB      | 422.890 MB      | 425.789 MB         | 398.054 MB  |
+| response time 95th percentile              | 906 ms          | 539 ms          | 480 ms             | 1342 ms     |
+| response time 99th percentile              | 1184 ms         | 687 ms          | 671 ms             | 1421 ms     |
