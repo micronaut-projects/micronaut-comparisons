@@ -118,7 +118,9 @@ Used Device: ZBook Studio G3 / i7-6700HQ / 32GB / Fedora Linux 32
 |:-------------------------------------------|----------------:|----------------:|-------------------:|------------:|
 | Simple: Start Up (Best of 5)               | 2825 ms         | 1041 ms         | 817 ms             | 812ms       |
 | Simple: Time to First Response (Best of 5) | 3027 ms         | 1797 ms         | 1499 ms            | 1151ms      |
-| JHipster: Number of Requests (60s)         | 109,075         | 122,896         | 139,183            | TODO        | 
-| JHipster: Mean Response Time               | 454 ms          | 404 ms          | 349 ms             | TODO        | 
-| JHipster: Mean Requests Per Second         | 1983.182        | 2234.473        | 2485.411           | TODO        | 
-| Memory Consumption After Load Test         | 478.980 MB      | 509.562 MB      | 517.753 MB         | TODO        | 
+| JHipster: Number of Requests (60s)         | 137,365         | 170,539         | 184,848            | 121,606     |
+| JHipster: Mean Response Time               | 363 ms          | 292 ms          | 268 ms             | 406 ms      |
+| JHipster: Mean Requests Per Second         | 2497.545        | 3100.709        | 3360.873           | 2211.018    |
+| Memory Consumption After Load Test         | 421.683 MB      | 422.890 MB      | 425.789 MB         | 398.054 MB  |
+| response time 95th percentile              | 906 ms          | 539 ms          | 480 ms             | 1342 ms     |
+| response time 99th percentile              | 1184 ms         | 687 ms          | 671 ms             | 1421 ms     |
